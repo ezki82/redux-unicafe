@@ -63,4 +63,56 @@ describe('unicafe reducer', () => {
       bad: 1
     })
   })
+
+  test('reset status after feedbacks', () => {
+    // GOOD
+    const firstAction = {
+      type: 'GOOD'
+    }
+    const state = initialState
+    deepFreeze(state)
+    let newState = counterReducer(state, firstAction)
+    expect(newState).toEqual({
+      good: 1,
+      ok: 0,
+      bad: 0
+    })
+
+    // OK
+    const secondAction = {
+      type: 'OK'
+    }
+    deepFreeze(state)
+    newState = counterReducer(newState, secondAction)
+    expect(newState).toEqual({
+      good: 1,
+      ok: 1,
+      bad: 0
+    })
+
+    // BAD
+    const thirdAction = {
+      type: 'BAD'
+    }
+    deepFreeze(state)
+    newState = counterReducer(newState, thirdAction)
+    expect(newState).toEqual({
+      good: 1,
+      ok: 1,
+      bad: 1
+    })
+
+    // RESET
+    const resetAction = {
+      type: 'ZERO'
+    }
+
+    deepFreeze(state)
+    newState = counterReducer(newState, resetAction)
+    expect(newState).toEqual({
+      good: 0,
+      ok: 0,
+      bad: 0
+    })
+  })
 })
